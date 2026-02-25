@@ -7,13 +7,10 @@
 
     <meta name="description" content="Catálogo interactivo de 3D Factory Studio. Impresiones en resina y filamento con acabados profesionales.">
     <meta name="keywords" content="Impresión 3D, Resina, Filamento, Figuras Coleccionables, Cotización 3D">
-    
     <meta property="og:title" content="3D Factory Studio - Catálogo Interactivo">
     <meta property="og:description" content="Explora nuestro stock y solicita tus piezas personalizadas. Calidad premium en cada capa.">
-    <meta property="og:image" content="https://
-cgonzalezfoster11-beep.github.io/catalogo-3d/preview-tienda.jpg">
-    <meta property="og:url" content="https://
-cgonzalezfoster11-beep.github.io/catalogo-3d/">
+    <meta property="og:image" content="https://cgonzalezfoster11-beep.github.io/catalogo-3d/preview-tienda.jpg">
+    <meta property="og:url" content="https://cgonzalezfoster11-beep.github.io/catalogo-3d/">
     <meta property="og:type" content="website">
 
     <style>
@@ -57,7 +54,7 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
 
         .catalog-area { flex: 3; min-width: 300px; }
 
-        /* 3. CATÁLOGO Y GALERÍA */
+        /* 3. PRODUCTOS Y GALERÍA */
         .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .product-card { background: var(--bg-card); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; border: 1px solid rgba(128,128,128,0.1); }
         .image-placeholder { height: 180px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #888; }
@@ -75,13 +72,15 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
         .form-row .form-group { flex: 1; min-width: 140px; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: var(--input-bg); color: var(--text-main); }
 
-        /* 5. SIDEBAR */
+        /* 5. SIDEBAR (MENÚ ACORDADO) */
         .sidebar { flex: 1; min-width: 280px; background: var(--sidebar-bg); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: fit-content; }
         .sidebar h3 { border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-top: 25px; }
+        .sidebar h3:first-child { margin-top: 0; }
         .sidebar ul { list-style: none; padding: 0; }
-        .sidebar li { margin: 10px 0; }
-        .sidebar a { text-decoration: none; color: var(--text-main); font-weight: 500; }
-        .category-tag { background: var(--tag-bg); color: var(--accent); padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; }
+        .sidebar li { margin: 12px 0; }
+        .sidebar a { text-decoration: none; color: var(--text-main); font-weight: 500; transition: 0.3s; }
+        .sidebar a:hover { color: var(--accent); padding-left: 5px; }
+        .category-tag { background: var(--tag-bg); color: var(--accent); padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; margin-left: 5px; }
 
         /* BOTONES */
         .btn-send-custom { background: var(--accent); color: white; border: none; padding: 15px; border-radius: 30px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
@@ -100,6 +99,7 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
 <div class="main-content">
     <div class="catalog-area">
         <div id="viewer-container"></div>
+        
         <h2>Productos en Stock</h2>
         <div class="catalog-grid" id="catalogGrid">
             <div class="product-card">
@@ -107,7 +107,7 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
                 <div style="padding: 15px;">
                     <h3>Figura Articulada</h3>
                     <p style="color: #27ae60; font-weight: bold;">$12.500</p>
-                    <button class="btn-order" onclick="solicitarPedido('Figura Articulada')">WhatsApp</button>
+                    <button class="btn-order" onclick="solicitarPedido('Figura Articulada')">Consultar WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
         <h2>Trabajos Realizados</h2>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <div class="gallery-img-placeholder">Muestra Resina 4K</div>
+                <div class="gallery-img-placeholder">Muestra Calidad</div>
                 <div class="gallery-info">
                     <h4>Busto Coleccionista</h4>
                     <p>Detalle extremo en resina líquida.</p>
@@ -128,25 +128,41 @@ cgonzalezfoster11-beep.github.io/catalogo-3d/">
         <div class="custom-order-box">
             <h2>Pedidos Personalizados</h2>
             <form id="customOrderForm">
-                <div class="form-group"><label>Nombre del Proyecto</label><input type="text" id="customName" required></div>
+                <div class="form-group"><label>Nombre del Proyecto</label><input type="text" id="customName" placeholder="Ej: Casco Mandalorian" required></div>
                 <div class="form-row">
                     <div class="form-group"><label>Altura (cm)</label><input type="number" id="customSize"></div>
-                    <div class="form-group"><label>Material</label><select id="customMaterial"><option>PLA</option><option>Resina</option></select></div>
+                    <div class="form-group"><label>Material</label><select id="customMaterial"><option>PLA Estándar</option><option>Resina 4K</option><option>PLA Pro</option></select></div>
                 </div>
-                <div class="form-group"><label>Descripción</label><textarea id="customDesc" rows="3"></textarea></div>
-                <button type="button" class="btn-send-custom" onclick="enviarCotizacion()">Enviar a WhatsApp</button>
+                <div class="form-group"><label>Descripción / Link</label><textarea id="customDesc" rows="3"></textarea></div>
+                <button type="button" class="btn-send-custom" onclick="enviarCotizacion()">Enviar Cotización a WhatsApp</button>
             </form>
         </div>
     </div>
 
     <aside class="sidebar">
         <h3>Buscar</h3>
-        <input type="text" id="productSearch" onkeyup="filtrarProductos()" placeholder="¿Qué buscas?">
+        <input type="text" id="productSearch" onkeyup="filtrarProductos()" placeholder="¿Qué buscas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px;">
+
         <h3>Categorías</h3>
         <ul>
             <li><a href="#">🎬 Cine y Series</a> <span class="category-tag">Nuevo</span></li>
-            <li><a href="#">🎮 Gaming</a></li>
+            <li><a href="#">🎮 Gaming y Cosplay</a></li>
+            <li><a href="#">🏢 Decoración Oficina</a></li>
+            <li><a href="#">🛠️ Repuestos Técnicos</a></li>
+            <li><a href="#">🎨 Figuras para Pintar</a></li>
         </ul>
+
+        <h3>Ventas Especiales</h3>
+        <ul>
+            <li><a href="#">📦 Pedidos al por Mayor</a></li>
+            <li><a href="#">✨ Proyectos Personalizados</a></li>
+            <li><a href="#">🎁 Packs de Regalo</a></li>
+        </ul>
+
+        <h3>Sobre el Material</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Imprimimos en PLA de alta calidad y Resina para detalles minuciosos.
+        </p>
     </aside>
 </div>
 
